@@ -34,7 +34,6 @@ class _CompanyScreenState extends State<CompanyScreen> {
       setState(() {
         isLoading = false;
       });
-      // Handle error here
     });
   }
 
@@ -47,10 +46,9 @@ class _CompanyScreenState extends State<CompanyScreen> {
           "Company Info",
           style: TextStyle(fontSize: 20, color: Colors.white),
         ),
-        //
         actions: [
           IconButton(
-            icon: Icon(Icons.edit,color: Colors.white,),
+            icon: Icon(Icons.edit, color: Colors.white),
             onPressed: () {
               Navigator.push(
                 context,
@@ -63,11 +61,13 @@ class _CompanyScreenState extends State<CompanyScreen> {
                     skillController: skillController,
                   ),
                 ),
-              ).then((_) => setState(() {}));
+              ).then((_) {
+                setState(() {});
+              });
             },
           ),
           IconButton(
-            icon: Icon(Icons.add,color: Colors.white,),
+            icon: Icon(Icons.add, color: Colors.white),
             onPressed: () {
               Navigator.push(
                 context,
@@ -80,11 +80,13 @@ class _CompanyScreenState extends State<CompanyScreen> {
                     skillController: skillController,
                   ),
                 ),
-              ).then((_) => setState(() {}));
+              ).then((_) {
+                setState(() {});
+              });
             },
           ),
           IconButton(
-            icon: Icon(Icons.delete,color: Colors.red,),
+            icon: Icon(Icons.delete, color: Colors.red),
             onPressed: () {
               Navigator.push(
                 context,
@@ -93,7 +95,9 @@ class _CompanyScreenState extends State<CompanyScreen> {
                     indexController: indexController,
                   ),
                 ),
-              ).then((_) => setState(() {}));
+              ).then((_) {
+                setState(() {});
+              });
             },
           ),
         ],
@@ -113,31 +117,40 @@ class _CompanyScreenState extends State<CompanyScreen> {
 
   Widget _buildCompanyInfoView() {
     if (companyController.list.isEmpty) {
-      return const Text("No company information available.");
+      return const Text("No company information");
     } else {
       final company = companyController.list[0];
       return Center(
-        child: SizedBox(
-          width: 365,
-          child: Card(
-            color: const Color(0xffFFFFFF),
-            child: Padding(
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                children: [
-                  _buildSectionTitle("COMPANY"),
-                  _buildInfoText("Company: ${company.company}"),
-                  _buildInfoText("Location: ${company.location}"),
-                  _buildSectionTitle("EMPLOYEES"),
-                  Column(
-                    children: company.employees.map((e) => _buildEmployeeCard(e)).toList(),
+        child: Column(
+          children: [
+            SizedBox(
+              width: 365,
+              child: Card(
+                color: const Color(0xffFFFFFF),
+                child: Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _buildSectionTitle("COMPANY"),
+                      _buildInfoText("Company: ${company.company}"),
+                      _buildInfoText("Location: ${company.location}"),
+                    ],
                   ),
-                  _buildSectionTitle("PRODUCTS"),
-                  ...company.products.map((p) => _buildProductInfo(p)).toList(),
-                ],
+                ),
               ),
             ),
-          ),
+            const SizedBox(height: 20),
+            _buildSectionTitle("EMPLOYEES"),
+            Column(
+              children: company.employees.map((e) => _buildEmployeeCard(e)).toList(),
+            ),
+            const SizedBox(height: 20),
+            _buildSectionTitle("PRODUCTS"),
+            Column(
+              children: company.products.map((p) => _buildProductCard(p)).toList(),
+            ),
+          ],
         ),
       );
     }
@@ -161,33 +174,49 @@ class _CompanyScreenState extends State<CompanyScreen> {
   }
 
   Widget _buildEmployeeCard(Employee employee) {
-    return Card(
-      elevation: 5,
-      margin: const EdgeInsets.symmetric(vertical: 10),
-      child: Padding(
-        padding: const EdgeInsets.all(10),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildInfoText("Name: ${employee.name}"),
-            _buildInfoText("Age: ${employee.age}"),
-            _buildInfoText("Position: ${employee.position}"),
-            _buildInfoText("Skill: ${employee.skill}"),
-          ],
+    return Center(
+      child: SizedBox(
+        width: 365,
+        child: Card(
+          elevation: 4,
+          margin: const EdgeInsets.symmetric(vertical: 10),
+          child: Padding(
+            padding: const EdgeInsets.all(10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _buildInfoText("Name: ${employee.name}"),
+                _buildInfoText("Age: ${employee.age}"),
+                _buildInfoText("Position: ${employee.position}"),
+                _buildInfoText("Skill: ${employee.skill}"),
+              ],
+            ),
+          ),
         ),
       ),
     );
   }
 
-  Widget _buildProductInfo(Product product) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        _buildInfoText("Name: ${product.name}"),
-        _buildInfoText("Price: ${product.price} \$"),
-        _buildInfoText("InStock: ${product.inStock}"),
-        const SizedBox(height: 10),
-      ],
+  Widget _buildProductCard(Product product) {
+    return Center(
+      child: SizedBox(
+        width: 365,
+        child: Card(
+          elevation: 4,
+          margin: const EdgeInsets.symmetric(vertical: 10),
+          child: Padding(
+            padding: const EdgeInsets.all(10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _buildInfoText("Name: ${product.name}"),
+                _buildInfoText("Price: ${product.price} \$"),
+                _buildInfoText("InStock: ${product.inStock ? 'Yes' : 'No'}"),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

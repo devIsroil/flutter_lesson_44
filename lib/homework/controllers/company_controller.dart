@@ -1,8 +1,11 @@
+import '../../practise/models/product_model.dart';
+import '../models/company_model.dart';
+
 class CompanyController {
   List<Company> list = [];
 
   Future<void> getProducts() async {
-    await Future.delayed(Duration(seconds: 2));
+    await Future.delayed(Duration(seconds: 1));
 
     list.add(Company(
       company: 'Tech Co.',
@@ -19,31 +22,41 @@ class CompanyController {
   }
 
   void addEmployee(Employee employee) {
-    list[0].employees.add(employee);
+    if (list.isNotEmpty) {
+      list[0].employees.add(employee);
+    }
   }
 
   void editEmployee(int index, Employee employee) {
-    list[0].employees[index] = employee;
+    if (list.isNotEmpty && index < list[0].employees.length) {
+      list[0].employees[index] = employee;
+    }
   }
 
   void removeEmployee(int index) {
-    list[0].employees.removeAt(index);
+    if (list.isNotEmpty && index < list[0].employees.length) {
+      list[0].employees.removeAt(index);
+    }
   }
 
   void addProduct(Product product) {
-    list[0].products.add(product);
+    if (list.isNotEmpty) {
+      list[0].products.add(product);
+    }
   }
 
   void editProduct(int index, Product product) {
-    list[0].products[index] = product;
+    if (list.isNotEmpty && index < list[0].products.length) {
+      list[0].products[index] = product;
+    }
   }
 
   void removeProduct(int index) {
-    list[0].products.removeAt(index);
+    if (list.isNotEmpty && index < list[0].products.length) {
+      list[0].products.removeAt(index);
+    }
   }
 }
-
-
 class Company {
   final String company;
   final String location;
